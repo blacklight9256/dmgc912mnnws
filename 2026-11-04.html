@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>밤사이 헤드라인</title>
+<style>
+:root{--bg:#f4f5f7;--card:#fff;--ink:#16181d;--sub:#7b818c;--line:#e6e8ec;--accent:#2f5bea;--chip:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#111316;--card:#1a1d21;--ink:#eceef1;--sub:#8b919b;--line:#2a2e34;--accent:#7c9cff;--chip:#1a1d21}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);word-break:keep-all;overflow-wrap:anywhere;
+  font:16px/1.55 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Noto Sans KR","Malgun Gothic",sans-serif}
+main{max-width:1120px;margin:0 auto;padding:24px 16px 48px}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:16px}
+.date{color:var(--sub);font-size:14px}
+h1{margin:2px 0 0;font-size:24px;letter-spacing:-.02em}
+h1 small{font-size:14px;color:var(--sub);font-weight:500;margin-left:6px}
+.view{display:flex;background:var(--line);border-radius:10px;padding:3px}
+.view button{border:0;background:none;color:var(--sub);font:inherit;font-size:13px;padding:6px 12px;border-radius:8px;cursor:pointer}
+.view button.on{background:var(--card);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.days{display:flex;gap:6px;overflow-x:auto;margin:0 0 18px;padding-bottom:2px;scrollbar-width:none}
+.days::-webkit-scrollbar{display:none}
+.days a{flex:none;padding:6px 12px;border-radius:999px;background:var(--chip);color:var(--ink);
+  text-decoration:none;font-size:14px;border:1px solid var(--line)}
+.days a.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.groups{display:grid;gap:14px;grid-template-columns:1fr}
+@media (min-width:860px){.groups{grid-template-columns:1fr 1fr;align-items:start}}
+section{background:var(--card);border-radius:14px;padding:4px 18px 6px;border:1px solid var(--line)}
+h2{font-size:15px;margin:14px 0 2px;display:flex;justify-content:space-between}
+h2 span{color:var(--sub);font-weight:400;font-size:13px}
+ol{list-style:none;margin:0;padding:0}
+li{border-top:1px solid var(--line)}
+h2+ol li:first-child{border-top:0}
+li a{display:block;padding:12px 0;color:inherit;text-decoration:none}
+li a:hover .t{color:var(--accent);text-decoration:underline}
+li a:visited .t{color:var(--sub)}
+.t{font-weight:600;font-size:16.5px;line-height:1.5}
+.m{display:block;color:var(--sub);font-size:13px;margin-top:3px}
+/* 목록형: 언론사 · 제목 · 시간을 한 줄로 촘촘하게 */
+body.compact section{border-radius:10px;padding:2px 16px 4px}
+body.compact h2{margin:10px 0 2px;font-size:14px}
+body.compact li a{display:flex;gap:10px;align-items:baseline;padding:8px 0}
+body.compact .t{flex:1;min-width:0;font-weight:500;font-size:15px}
+body.compact .m{order:-1;margin:0;flex:none;width:76px;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.compact .m .tm{display:none}
+body.compact .tm2{display:inline;flex:none;color:var(--sub);font-size:12.5px}
+.tm2{display:none}
+@media (min-width:860px){body.compact .groups{grid-template-columns:1fr;max-width:900px}
+  body.compact .m{width:96px}}
+@media (max-width:600px){body.compact li a{display:block;padding:9px 0}
+  body.compact .m{display:block;width:auto;margin-top:1px}
+  body.compact .m .tm{display:inline}
+  body.compact .tm2{display:none}}
+footer{margin-top:22px;color:var(--sub);font-size:12px}
+section:not(.open) li.more{display:none}
+.morebtn{display:block;width:100%;margin:2px 0 8px;padding:9px 0;border:0;border-top:1px solid var(--line);
+  background:none;color:var(--sub);font:inherit;font-size:13.5px;cursor:pointer}
+.morebtn:hover{color:var(--ink)}
+/* 관심종목 차트 (상승 빨강, 하락 파랑) */
+:root{--up:#e03131;--down:#1c6fd6}
+@media (prefers-color-scheme:dark){:root{--up:#ff6b6b;--down:#4dabf7}}
+.h3{font-size:15px;margin:0 0 10px}
+.stocks{display:grid;gap:14px;grid-template-columns:1fr;margin-bottom:26px}
+@media (min-width:860px){.stocks{grid-template-columns:1fr 1fr}}
+.stock{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px 10px}
+.stock .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.stock .nm{font-weight:700;font-size:16px}
+.stock .nm a{color:inherit;text-decoration:none}
+.stock .nm a:hover{text-decoration:underline}
+.stock .sym{color:var(--sub);font-size:12px;margin-left:4px;font-weight:400}
+.stock .px{font-weight:700;font-size:18px;font-variant-numeric:tabular-nums}
+.stock .chg{font-size:13px;font-variant-numeric:tabular-nums;text-align:right}
+.stock .ov{font-size:12.5px;color:var(--sub);margin-top:4px;font-variant-numeric:tabular-nums}
+.stock .ov b{font-weight:600}
+.sum{display:flex;flex-wrap:wrap;gap:8px;margin:-4px 0 22px}
+.sum span{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:6px 11px;font-size:13px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.sum span i{font-style:normal;color:var(--sub);margin-right:6px}
+@media (max-width:600px){.sum{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+  .sum span{display:flex;flex-direction:column;padding:6px 9px;font-size:13.5px}
+  .sum span i{margin:0 0 1px;font-size:11.5px}.sum span b{font-size:12px}}
+.up{color:var(--up)} .down{color:var(--down)} .flat{color:var(--sub)}
+.tabs{display:flex;gap:4px;margin:8px 0 4px}
+.tabs button{border:0;background:none;color:var(--sub);font:inherit;font-size:12.5px;padding:3px 9px;border-radius:999px;cursor:pointer}
+.tabs button.on{background:var(--line);color:var(--ink);font-weight:600}
+.chart{position:relative;height:150px;touch-action:pan-y}
+.chart svg{display:block;width:100%;height:100%}
+.tip{position:absolute;top:0;pointer-events:none;font-size:11.5px;background:var(--card);border:1px solid var(--line);
+  border-radius:6px;padding:2px 6px;white-space:nowrap;transform:translateX(-50%);display:none;font-variant-numeric:tabular-nums}
+.axis{display:flex;justify-content:space-between;color:var(--sub);font-size:11px;margin-top:2px;font-variant-numeric:tabular-nums}
+.night{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px 12px;margin-bottom:26px}
+.night .row{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px}
+.night .big{font-size:28px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.night .chg{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+.night table{border-collapse:collapse;margin:10px 0 6px;font-size:13.5px;font-variant-numeric:tabular-nums}
+.night th{color:var(--sub);font-weight:400;text-align:left;padding:2px 14px 2px 0}
+.night td{padding:2px 18px 2px 0;font-weight:600}
+.night svg{display:block;width:100%;height:120px;margin-top:6px}
+.night .note{color:var(--sub);font-size:12px;margin-top:6px}
+.night th,.night td{white-space:nowrap}
+.night .lv{border-top:1px solid var(--line);margin-top:12px;padding-top:6px}
+.night .tg th{font-weight:600}
+.night .tg th.up{color:var(--up)} .night .tg th.down{color:var(--down)}
+@media (max-width:480px){.night table{font-size:12.5px}.night th{padding-right:9px}.night td{padding-right:9px}
+  .night .asof{display:none}.night .big{font-size:25px}}
+</style>
+</head>
+<body>
+<script>try{if(localStorage.getItem('view')==='compact')document.body.classList.add('compact')}catch(e){}</script>
+<main>
+<header><div><div class="date">11월 4일 (수)</div><h1>밤사이 헤드라인<small>48개</small></h1></div><div class="view" role="group" aria-label="보기 방식"><button type="button" data-v="card">카드형</button><button type="button" data-v="compact">목록형</button></div></header>
+<nav class="days" aria-label="날짜"><a href="2026-11-04.html" class="on">11/4 수</a><a href="2026-11-03.html">11/3 화</a><a href="2026-11-02.html">11/2 월</a><a href="2026-11-01.html">11/1 일</a></nav>
+<div class="sum"><span><i>코스피</i>5,859.08 <b class="up">▲2.24%</b></span><span><i>코스닥</i>734.36 <b class="up">▲1.38%</b></span><span><i>원/달러</i>1,343.53 <b class="up">▲1.36%</b></span><span><i>나스닥</i>25,372 <b class="up">▲0.83%</b></span><span><i>S&amp;P 500</i>7,568.92 <b class="up">▲0.36%</b></span></div>
+<h2 class="h3">코스피200 야간 추정</h2><div class="night"><div class="row"><span class="big up">912.64</span><span class="chg up">▲26.97 (+3.05%)</span></div><table><tr><th>시가</th><th>고가</th><th>저가</th><th>주간종가</th><th class="asof">기준</th></tr><tr><td>889.71</td><td>915.66</td><td>888.92</td><td>885.67</td><td class="asof">11/4 08:30</td></tr></table><svg viewBox="0 0 600 120" preserveAspectRatio="none"><line x1="0" x2="600" y1="103.6" y2="103.6" stroke="currentColor" stroke-opacity=".25" stroke-dasharray="3 3"/><path d="M1.0 103.6L9.9 108.0L18.9 114.0L27.8 111.9L36.7 100.9L45.6 101.4L54.6 94.7L63.5 111.4L72.4 104.6L81.3 104.1L90.3 90.1L99.2 91.2L108.1 91.2L117.0 79.3L126.0 77.2L134.9 77.2L143.8 71.7L152.7 73.9L161.7 73.8L170.6 79.0L179.5 79.0L188.4 84.9L197.4 84.1L206.3 55.1L215.2 54.5L224.1 46.1L233.1 51.8L242.0 19.8L250.9 11.7L259.8 21.8L268.8 36.5L277.7 45.0L286.6 18.9L295.5 38.5L304.5 37.4L313.4 34.6L322.3 24.3L331.2 27.3L340.2 33.3L349.1 46.3L358.0 59.4L366.9 50.0L375.9 44.8L384.8 42.6L393.7 52.1L402.6 45.0L411.6 47.4L420.5 42.9L429.4 39.4L438.3 51.9L447.3 61.3L456.2 57.8L465.1 60.4L474.0 67.3L483.0 66.0L491.9 57.5L500.8 59.1L509.7 57.3L518.7 43.6L527.6 9.9L536.5 11.9L545.4 11.7L554.4 17.6L563.3 20.6L572.2 21.4L581.1 13.5L590.1 10.3L599.0 6.0" fill="none" stroke="var(--up)" stroke-width="1.8" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg><div class="axis"><span>11/3 15:45</span><span>11/4 08:30</span></div><div class="lv"><table><tr><th>실현변동성</th><th>피벗</th></tr><tr><td>59.4%</td><td>905.74</td></tr></table><table class="tg"><tr><th></th><th>1차</th><th>2차</th><th>3차</th></tr><tr><th class="up">상승</th><td>922.56</td><td>932.47</td><td>949.29</td></tr><tr><th class="down">하락</th><td>895.83</td><td>879.01</td><td>869.09</td></tr></table><div class="note">매매 목표가는 야간 고가·저가·추정가로 계산한 표준 피벗 포인트예요. 실현변동성은 15분 단위 움직임을 1년 기준으로 환산한 값이에요.</div></div><div class="note">Hyperliquid KR200(코스피200 추종 무기한 선물) 가격으로 계산한 추정치예요. 실제 KRX 야간선물 가격이 아니고, 주간종가는 코스피200 지수 종가 기준이에요.</div></div>
+<h2 class="h3">관심종목</h2><div class="stocks">
+<div class="stock" data-i="0"><div class="top"><div class="nm"><a href="https://finance.naver.com/item/main.naver?code=005930" target="_blank" rel="noopener">삼성전자</a><span class="sym">005930.KS</span></div><div><div class="px"></div><div class="chg"></div></div></div><div class="ov">밤사이 해외 추정 <b class="up">227,685 ▲3.73%</b> · 11/4 08:30 기준 (Hyperliquid SMSN)</div><div class="tabs"><button data-r="1d">1일</button><button data-r="1m">1개월</button><button data-r="3m">3개월</button><button data-r="1y">1년</button></div><div class="chart"><div class="tip"></div></div><div class="axis"><span></span><span></span></div></div>
+<div class="stock" data-i="1"><div class="top"><div class="nm"><a href="https://finance.naver.com/item/main.naver?code=000660" target="_blank" rel="noopener">SK하이닉스</a><span class="sym">000660.KS</span></div><div><div class="px"></div><div class="chg"></div></div></div><div class="ov">밤사이 해외 추정 <b class="up">1,465,998 ▲4.86%</b> · 11/4 08:30 기준 (Hyperliquid SKHX)</div><div class="tabs"><button data-r="1d">1일</button><button data-r="1m">1개월</button><button data-r="3m">3개월</button><button data-r="1y">1년</button></div><div class="chart"><div class="tip"></div></div><div class="axis"><span></span><span></span></div></div>
+</div>
+<script type="application/json" id="stock-data">[{"p":229000,"kr":true,"i":[[1793664000,219000],[1793664300,218000],[1793664600,218250],[1793664900,218750],[1793665200,218250],[1793665500,219250],[1793665800,219750],[1793666100,219000],[1793666400,218500],[1793666700,219000],[1793667000,218500],[1793667300,220000],[1793667600,220750],[1793667900,221250],[1793668200,221000],[1793668500,223000],[1793668800,221500],[1793669100,221750],[1793669400,221750],[1793669700,221500],[1793670000,221250],[1793670300,221250],[1793670600,221750],[1793670900,222000],[1793671200,222000],[1793671500,222000],[1793671800,223000],[1793672100,222250],[1793672400,222000],[1793672700,221500],[1793673000,221250],[1793673300,222000],[1793673600,221000],[1793673900,220500],[1793674200,220250],[1793674500,220000],[1793674800,220250],[1793675100,220000],[1793675400,219500],[1793675700,220000],[1793676000,220250],[1793676300,219750],[1793676600,220000],[1793676900,219750],[1793677200,219500],[1793677500,221000],[1793677800,220750],[1793678100,220000],[1793678400,219500],[1793678700,219500],[1793679000,219250],[1793679300,218500],[1793679600,218500],[1793679900,219500],[1793680200,218500],[1793680500,218750],[1793680800,218500],[1793681100,218000],[1793681400,218250],[1793681700,219500],[1793682000,218750],[1793682300,219250],[1793682600,219250],[1793682900,219500],[1793683200,219250],[1793683500,219250],[1793683800,219000],[1793684100,219750],[1793684400,219750],[1793684700,219750],[1793685000,219750],[1793685300,220000],[1793685600,219500]],"d":[[1762128000,111100],[1762214400,104900],[1762300800,100600],[1762387200,99200],[1762473600,97900],[1762732800,100600],[1762819200,103500],[1762905600,103100],[1762992000,102800],[1763078400,97200],[1763337600,100600],[1763424000,97800],[1763510400,96500],[1763596800,100600],[1763683200,94800],[1763942400,96700],[1764028800,99300],[1764115200,102800],[1764201600,103500],[1764288000,100500],[1764547200,100800],[1764633600,103400],[1764720000,104500],[1764806400,105100],[1764892800,108400],[1765152000,109500],[1765238400,108400],[1765324800,108000],[1765411200,107300],[1765497600,108900],[1765756800,104800],[1765843200,102800],[1765929600,107900],[1766016000,107600],[1766102400,106300],[1766361600,110500],[1766448000,111500],[1766534400,111100],[1766707200,117000],[1766966400,119500],[1767052800,119900],[1767312000,128500],[1767571200,138100],[1767657600,138900],[1767744000,141000],[1767830400,138800],[1767916800,139000],[1768176000,138800],[1768262400,137600],[1768348800,140300],[1768435200,143900],[1768521600,148900],[1768780800,149300],[1768867200,145200],[1768953600,149500],[1769040000,152300],[1769126400,152100],[1769385600,152100],[1769472000,159500],[1769558400,162400],[1769644800,160700],[1769731200,160500],[1769990400,150400],[1770076800,167500],[1770163200,169100],[1770249600,159300],[1770336000,158600],[1770595200,166400],[1770681600,165800],[1770768000,167800],[1770854400,178600],[1770940800,181200],[1771459200,190000],[1771545600,190100],[1771804800,193000],[1771891200,200000],[1771977600,203500],[1772064000,218000],[1772150400,216500],[1772496000,195100],[1772582400,172200],[1772668800,191600],[1772755200,188200],[1773014400,173500],[1773100800,187900],[1773187200,190000],[1773273600,187900],[1773360000,183500],[1773619200,188700],[1773705600,193900],[1773792000,208500],[1773878400,200500],[1773964800,199400],[1774224000,186300],[1774310400,189700],[1774396800,189000],[1774483200,180100],[1774569600,180100],[1774828800,176300],[1774915200,167200],[1775001600,189650],[1775088000,178400],[1775174400,186200],[1775433600,193100],[1775520000,196500],[1775606400,210500],[1775692800,204000],[1775779200,206000],[1776038400,201000],[1776124800,206500],[1776211200,211000],[1776297600,217500],[1776384000,216000],[1776643200,214500],[1776729600,219000],[1776816000,217500],[1776902400,224500],[1776988800,219500],[1777248000,224500],[1777334400,222000],[1777420800,226000],[1777507200,220500],[1777852800,232500],[1778025600,266000],[1778112000,271500],[1778198400,268500],[1778457600,285500],[1778544000,279000],[1778630400,284000],[1778716800,296000],[1778803200,270500],[1779062400,281000],[1779148800,275500],[1779235200,276000],[1779321600,299500],[1779408000,292500],[1779753600,299000],[1779840000,307000],[1779926400,299500],[1780012800,317000],[1780272000,349000],[1780358400,360500],[1780531200,351500],[1780617600,329000],[1780876800,295500],[1780963200,322000],[1781049600,302500],[1781136000,299000],[1781222400,322500],[1781481600,337000],[1781568000,343000],[1781654400,346500],[1781740800,362500],[1781827200,354000],[1782086400,353500],[1782172800,310000],[1782259200,340500],[1782345600,358500],[1782432000,339500],[1782691200,323000],[1782777600,334000],[1782864000,314500],[1782950400,286000],[1783036800,309500],[1783296000,318000],[1783382400,296000],[1783468800,277500],[1783555200,278000],[1783641600,285000],[1783900800,254500],[1783987200,263000],[1784073600,279500],[1784160000,255000],[1784505600,244000],[1784592000,259000],[1784678400,260500],[1784764800,270000],[1784851200,249500],[1785110400,254000],[1785196800,220000],[1785283200,208500],[1785369600,207000],[1785456000,262500],[1785715200,239500],[1785801600,240000],[1785888000,246000],[1785974400,230500],[1786060800,231000],[1786320000,230000],[1786406400,239500],[1786492800,255500],[1786579200,268000],[1786665600,274500],[1787011200,268500],[1787097600,247500],[1787184000,271000],[1787270400,281500],[1787529600,257000],[1787616000,257000],[1787702400,261500],[1787788800,266000],[1787875200,257000],[1788134400,260000],[1788220800,261000],[1788307200,250500],[1788393600,250000],[1788480000,255500],[1788739200,270000],[1788825600,269500],[1788912000,269500],[1788998400,269000],[1789084800,259500],[1789344000,249000],[1789430400,248500],[1789516800,253500],[1789603200,252500],[1789689600,261000],[1789948800,274000],[1790035200,276500],[1790121600,285500],[1790553600,270000],[1790640000,272500],[1790726400,268500],[1790812800,276000],[1790899200,276000],[1791244800,272000],[1791331200,268500],[1791417600,262000],[1791763200,250500],[1791849600,232000],[1791936000,232000],[1792022400,210000],[1792108800,215500],[1792368000,218000],[1792454400,211500],[1792540800,223500],[1792627200,214500],[1792713600,215500],[1792972800,213000],[1793059200,222000],[1793145600,242000],[1793232000,232000],[1793318400,225000],[1793577600,229000],[1793664000,219500]]},{"p":1472000,"kr":true,"i":[[1793664000,1407000],[1793664300,1389000],[1793664600,1397000],[1793664900,1396000],[1793665200,1394000],[1793665500,1403000],[1793665800,1404000],[1793666100,1401000],[1793666400,1392000],[1793666700,1392000],[1793667000,1389000],[1793667300,1403000],[1793667600,1415000],[1793667900,1420000],[1793668200,1418000],[1793668500,1431000],[1793668800,1418000],[1793669100,1413000],[1793669400,1420000],[1793669700,1416000],[1793670000,1415000],[1793670300,1415000],[1793670600,1421000],[1793670900,1417000],[1793671200,1415000],[1793671500,1412000],[1793671800,1419000],[1793672100,1415000],[1793672400,1418500],[1793672700,1412000],[1793673000,1410000],[1793673300,1413000],[1793673600,1405000],[1793673900,1406000],[1793674200,1400000],[1793674500,1398000],[1793674800,1400000],[1793675100,1401000],[1793675400,1394000],[1793675700,1397000],[1793676000,1400000],[1793676300,1396000],[1793676600,1398000],[1793676900,1396000],[1793677200,1397000],[1793677500,1403500],[1793677800,1403000],[1793678100,1399000],[1793678400,1392000],[1793678700,1394000],[1793679000,1391000],[1793679300,1382000],[1793679600,1382000],[1793679900,1390000],[1793680200,1390000],[1793680500,1382500],[1793680800,1382000],[1793681100,1382000],[1793681400,1384000],[1793681700,1387000],[1793682000,1388000],[1793682300,1389000],[1793682600,1388000],[1793682900,1392500],[1793683200,1392000],[1793683500,1391000],[1793683800,1384000],[1793684100,1392000],[1793684400,1392000],[1793684700,1394000],[1793685000,1393000],[1793685300,1397000],[1793685600,1398000]],"d":[[1762128000,620000],[1762214400,586000],[1762300800,579000],[1762387200,593000],[1762473600,580000],[1762732800,606000],[1762819200,619000],[1762905600,617000],[1762992000,612000],[1763078400,560000],[1763337600,606000],[1763424000,570000],[1763510400,562000],[1763596800,571000],[1763683200,521000],[1763942400,520000],[1764028800,519000],[1764115200,524000],[1764201600,544000],[1764288000,530000],[1764547200,538000],[1764633600,558000],[1764720000,552000],[1764806400,542000],[1764892800,544000],[1765152000,577000],[1765238400,566000],[1765324800,587000],[1765411200,565000],[1765497600,571000],[1765756800,554000],[1765843200,530000],[1765929600,551000],[1766016000,552000],[1766102400,547000],[1766361600,580000],[1766448000,584000],[1766534400,588000],[1766707200,599000],[1766966400,640000],[1767052800,651000],[1767312000,677000],[1767571200,696000],[1767657600,726000],[1767744000,742000],[1767830400,756000],[1767916800,744000],[1768176000,749000],[1768262400,738000],[1768348800,742000],[1768435200,749000],[1768521600,756000],[1768780800,764000],[1768867200,743000],[1768953600,740000],[1769040000,755000],[1769126400,767000],[1769385600,736000],[1769472000,800000],[1769558400,841000],[1769644800,861000],[1769731200,909000],[1769990400,830000],[1770076800,907000],[1770163200,900000],[1770249600,842000],[1770336000,839000],[1770595200,887000],[1770681600,876000],[1770768000,860000],[1770854400,888000],[1770940800,880000],[1771459200,894000],[1771545600,949000],[1771804800,951000],[1771891200,1005000],[1771977600,1018000],[1772064000,1099000],[1772150400,1061000],[1772496000,939000],[1772582400,849000],[1772668800,941000],[1772755200,924000],[1773014400,836000],[1773100800,938000],[1773187200,955000],[1773273600,930000],[1773360000,910000],[1773619200,974000],[1773705600,970000],[1773792000,1056000],[1773878400,1013000],[1773964800,1007000],[1774224000,933000],[1774310400,986000],[1774396800,995000],[1774483200,933000],[1774569600,933000],[1774828800,873000],[1774915200,807000],[1775001600,897000],[1775088000,830000],[1775174400,876000],[1775433600,886000],[1775520000,916000],[1775606400,1033000],[1775692800,998000],[1775779200,1027000],[1776038400,1040000],[1776124800,1103000],[1776211200,1136000],[1776297600,1155000],[1776384000,1128000],[1776643200,1166000],[1776729600,1224000],[1776816000,1223000],[1776902400,1225000],[1776988800,1222000],[1777248000,1292000],[1777334400,1300000],[1777420800,1293000],[1777507200,1286000],[1777852800,1447000],[1778025600,1601000],[1778112000,1654000],[1778198400,1686000],[1778457600,1880000],[1778544000,1835000],[1778630400,1976000],[1778716800,1970000],[1778803200,1819000],[1779062400,1840000],[1779148800,1745000],[1779235200,1745000],[1779321600,1940000],[1779408000,1941000],[1779753600,2052000],[1779840000,2243000],[1779926400,2289000],[1780012800,2333000],[1780272000,2363000],[1780358400,2360000],[1780531200,2298000],[1780617600,2070000],[1780876800,1911000],[1780963200,2215000],[1781049600,2048000],[1781136000,2101000],[1781222400,2150000],[1781481600,2288000],[1781568000,2382000],[1781654400,2521000],[1781740800,2685000],[1781827200,2764000],[1782086400,2919000],[1782172800,2555000],[1782259200,2621000],[1782345600,2917000],[1782432000,2673000],[1782691200,2628000],[1782777600,2650000],[1782864000,2560000],[1782950400,2187000],[1783036800,2425000],[1783296000,2343000],[1783382400,2201000],[1783468800,2076000],[1783555200,2186000],[1783641600,2180000],[1783900800,1845000],[1783987200,1913000],[1784073600,2082000],[1784160000,1842000],[1784505600,1764000],[1784592000,1836000],[1784678400,1830000],[1784764800,1919000],[1784851200,1759000],[1785110400,1816000],[1785196800,1550000],[1785283200,1401000],[1785369600,1322000],[1785456000,1718000],[1785715200,1567000],[1785801600,1577000],[1785888000,1668000],[1785974400,1495000],[1786060800,1422000],[1786320000,1420000],[1786406400,1425000],[1786492800,1504000],[1786579200,1593000],[1786665600,1645000],[1787011200,1662000],[1787097600,1500000],[1787184000,1691000],[1787270400,1730000],[1787529600,1671000],[1787616000,1678000],[1787702400,1688000],[1787788800,1730000],[1787875200,1653000],[1788134400,1674000],[1788220800,1693000],[1788307200,1613000],[1788393600,1596000],[1788480000,1647000],[1788739200,1783000],[1788825600,1793000],[1788912000,1856000],[1788998400,1853000],[1789084800,1812000],[1789344000,1697000],[1789430400,1690000],[1789516800,1759000],[1789603200,1745000],[1789689600,1857000],[1789948800,1868000],[1790035200,1840000],[1790121600,1862000],[1790553600,1768000],[1790640000,1765000],[1790726400,1776000],[1790812800,1833000],[1790899200,1841000],[1791244800,1773000],[1791331200,1723000],[1791417600,1681000],[1791763200,1605000],[1791849600,1443000],[1791936000,1419000],[1792022400,1262000],[1792108800,1272000],[1792368000,1277000],[1792454400,1223000],[1792540800,1294000],[1792627200,1223000],[1792713600,1277000],[1792972800,1275000],[1793059200,1341000],[1793145600,1487000],[1793232000,1526000],[1793318400,1418000],[1793577600,1472000],[1793664000,1398000]]}]</script>
+<h2 class="h3">헤드라인</h2>
+<div class="groups">
+<section><h2>미국 증시<span>12</span></h2><ol>
+<li><a href="https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1LMDhvcGticFZVeDF5ekdHUVVZbUFLaFpfdVUxV0dtWFdLTkx3bEl2RTlBSS1HWE9SaVd4Rjg4cHhuRTd0djZzSnBPTDY2VUdqVlFNWE40eXZ4c2lZakcxeWgzVUszSjg?oc=5" target="_blank" rel="noopener"><span class="t">중간선거 경계감 속 뉴욕증시 혼조…기술주 반등에 나스닥 0.8%↑</span><span class="m">연합뉴스TV<span class="tm"> · 06:57</span></span><span class="tm2">06:57</span></a></li>
+<li><a href="https://news.google.com/rss/articles/CBMicEFVX3lxTFBwczhTTmpSTXpCdTZNTmMzeUM0cmxBYXRPVUpzZEZVcEw4NmI1SGVpeXlmLThJNFViM0dDQmxlbXNNTWROcEplT3VLRG1zenlOVXoyY3N1emc5WUE2a0d6cGNnVjFNY1AxTmlNSi1vZFo?oc=5" target="_blank" rel="noopener"><span class="t">중간선거 불확실성에 혼조…나스닥 0.83%↑</span><span class="m">연합인포맥스<span class="tm"> · 06:50</span></span><span class="tm2">06:50</span></a></li>
+<li><a href="https://news.google.com/rss/articles/CBMiXkFVX3lxTE5PNENydF9IVUNPLVhYM2RVMVdlZm0zZGs5NW9VX0JEVHhtczdJWjBEeGcwaHI4Um83ODRaaE8wT2pLclFXWWlWQ0NKOUtkbXJiSTZOdkR3dl9IbTczTEE?oc=5" target="_blank" rel="noopener"><span class="t">뉴욕 증시, 중간선거 결과 주시하며 혼조세로 마감</span><span class="m">YTN<span class="tm"> · 06:58</span></span><span class="tm2">06:58</span></a></li>
+<li><a href="https://news.google.com/rss/articles/CBMiZEFVX3lxTE9YVWN4S3JQR2xVUm1mQnV0QXJzWTRnQU9uNG5yZ2Vybkt4ckV5b21HWXdNYVVHSEdfVGJvUUZWa2hJelNHNlkzSlZQWDhGci12aHpkNC1xNzlJSHNmdHVtZTgyelY?oc=5" target="_blank" rel="noopener"><span class="t">미·이란 협상 기대에 반도체주 반등... 나스닥 0.83%↑ [뉴욕증시]</span><span class="m">매일일보<span class="tm"> · 08:15</span></span><span class="tm2">08:15</span></a></li>
+<li><a href="https://news.google.com/rss/articles/CBMicEFVX3lxTE9lSHNxdWRMWHo1Mi11UGNXS0ZhNjRvbjVKZnlDazZNa2hyTWFqQVBSTTFaSlZDckt3TXlKMm5sM0ZRem5TeXc1dTVva2ZyOE9pOE12Ym13WHhFTkJGVmhkY2E5RXRWN3JvNDFQNjBxVjA?oc=5" target="_blank" rel="noopener"><span class="t">뉴욕증시, 중간선거 경계감...기술주는 저가 매수세 유입</span><span class="m">오피니언뉴스<span class="tm"> · 07:41</span></span><span class="tm2">07:41</span></a></li>
+<li><a href="https://news.google.com/rss/articles/CBMidEFVX3lxTE16S2NFa21SQ0ZjM3Nla3JwVUZsNl96Q1ZSb0F3YWQ0Y2pyWWhJZEU0c0d1OGdDWVFEdFJ4MEF1NFEwS1ZhVl9pdkNSYXhpWHJYR3o5dFFxeVJZSkNXMlZzYXJPYWVxRHZzdlk5Zm9HanJyMnVa?oc=5" target="_blank" rel="noopener"><span class="t">뉴욕증시, 중간선거 불확실성 속 혼조…기술주 반등</span><span class="m">연합뉴스 한민족센터<span class="tm"> · 06:51</span></span><span class="tm2">06:51</span></a></li>
+<li class="more"><a href="https://news.google.com/rss/articles/CBMiZ0FVX3lxTE96enNxU2NFeUExTWF4ejNGN0M3SVZVTm1neFFGOG9DVTV5Y2p4SzNRRlFHTzhkVUduUDAzMVhsRlo4Yk9WTlI5VmR4QllLWHFac3dHTjJERGRHekN1TEh4eEMwM2s5UHM?oc=5" target="_blank" rel="noopener"><span class="t">뉴욕증시 반도체주 4거래일만에 반등…필반지수 2.64% 급등</span><span class="m">뉴스1<span class="tm"> · 07:09</span></span><span class="tm2">07:09</span></a></li>
+<li class="more"><a href="https://news.google.com/rss/articles/CBMickFVX3lxTE9LOF9yZko4NV9XLXZFODVHTFN2SUhBOVVRVDZ6VlhNbXVadG9UbFE5TFRVMzBfOTUzWU50NzZHVnU1ZklPX0RpajNMcTlMa1B6N0F1VW1WcFpPQV8zWDM0b3V0UmpXM21sRG16THFUUzQ1Zw?oc=5" target="_blank" rel="noopener"><span class="t">(4일)</span><span class="m">KB Think<span class="tm"> · 07:19</span></span><span class="tm2">07:19</span></a></li>
+<li class="more"><a href="https://news.google.com/rss/articles/CBMiYEFVX3lxTE5jOGdiVG9FMVdLZHpvVkdTaHJlZUJRRVdGYjA2MXc2bjNNYjVRVXQxV3J0V3M3eVVnblZSaE4xRXlDZFlpOUpJdVUwb1h0bkhscDFKOHFVQ0FQWUg1WjFyMA?oc=5" target="_blank" rel="noopener"><span class="t">[속보]뉴욕증시, 선거 당일 반도체주 반등…혼조 마감</span><span class="m">아시아경제<span class="tm"> · 06:11</span></span><span class="tm2">06:11</span></a></li>
+<li class="more"><a href="https://news.google.com/rss/articles/CBMiiAFBVV95cUxQZWN5bUtxOWxsZWxGb3U1amZUTW92TG5WQ2o5ZU5XUV9BQzZaWmlmRXFNUlJ2ek83WXJzd2lhTGtfN3J5Q0VhVEpTVGVSbExuMWZYbGJacXRneUl3cGVpUlBsN04tR0c3LWtqbzZxUGNaTTFBOEs0TUdpS0t0X1FSMzFBV3dDQndm?oc=5" target="_blank" rel="noopener"><span class="t">중간선거 긴장 속 나스닥 207P 반등... 반도체 랠리로 '숨통'</span><span class="m">글로벌이코노믹<span class="tm"> · 06:37</span></span><span class="tm2">06:37</span></a></li>
+<li class="more"><a href="https://news.google.com/rss/articles/CBMiZ0FVX3lxTE5kOV9nbjJqNFpBaWR1QmZZTHF3QU9FZmtTcFdacGZ4cjVkWWcwUlAzVURSQk9rUldPZWVxVWhsbkp5d1BubUx6WG1tNnU5SHd4MU02cVhvRG4yVzFWcDZUNVRoLUJVRnc?oc=5" target="_blank" rel="noopener"><span class="t">[속보]뉴욕증시 혼조세…반도체주 반등에 나스닥↑, 애플 약세에 다우↓</span><span class="m">뉴스1<span class="tm"> · 06:00</span></span><span class="tm2">06:00</span></a></li>
+<li class="more"><a href="https://news.google.com/rss/articles/CBMiwwJBVV95cUxPc1F4dTZDV1I3QkF5NGNSdWJWQWo3eEFIcUZhTHBqdG1MR19ETjBTaW12TmZuZXZUOURLQ0haQTUzZXMwMW11MVhTN2VZS2Y5eWxCX2xDQVRjRU9hTVlXa00zd3dlWXFvSHJodE9HUm5jZXJXRk54a21kQTUyQWhrUWZWTjBVaC0xMzBvQzBMVlpMSW14QktZSURXSXJ1SW40a0xFZXZHeGdiRU93SXdnNm1EV3JqUElCZHZmTkt5blI3R3RFS2h1WWRqVTY1VGJ1Wm9jSjZ6NlNnU3hiTjY1MjVTN3NoRnk1ZThRWGFGOS0wbUFHS0ozcmk0ajlVQW5XSW5WSUVnOUZZQm1QMXlJT2VmU0cxc1NTd3UzdDBaNVd5cUZIdmlJTkVrUTJKcEt2aVg3SjRlTFFEYi01TmhVVlZzaw?oc=5" target="_blank" rel="noopener"><span class="t">美 중간선거 속 혼조 마감…나스닥 0.83%↑·다우 0.38%↓</span><span class="m">중앙신문<span class="tm"> · 06:58</span></span><span class="tm2">06:58</span></a></li>
+</ol><button type="button" class="morebtn" data-n="6">더보기 6개</button></section>
+<section><h2>국내 증시<span>12</span></h2><ol>
+<li><a href="https://news.google.com/rss/articles/CBMiW0FVX3lxTFBFUl9tWVU0VUlfNkFzd2VjNjdZODJ3TWc0SXFxY3RzcFNMZ1JuRzBFQXZkMTZqMEhfUS1OcUdoaDdnaTVOZE01N1BOUThNcVV1MUZHQ1g4S05Qc03SAWBBVV95cUxORFpyTV9xWmc2UWVWakNyek5iSW43ZXNoVnJRcUJyMVRWeXNRb0l3N2xUdkhGYVB4Y0pNRWM3M0xOWHJlNmE2bzVvcjE0VUgzMGsxTllVMHliM1JrZGxCVjM?oc=5" target="_blank" rel="noopener"><span class="t">[코스피·코스닥 전 거래일(3일) 주요공시]</span><span class="m">연합뉴스<span class="tm"> · 06:05</span></span><span class="tm2">06:05</span></a></li>
+<li><a href="https://news.google.com/rss/articles/CBMiZ0FVX3lxTE5NdUhVTXJvVFNVcmRqTTc0WTJZaFhEVTBzaTM2WHRmS2tWcTRCMHRUczdmWE42QjBzN1NncjJ6amhwbVJMVjZuTG5oc0F1c0lnanphYkFmM21qZFoyeXlJYjJyT3E1a1E?oc=5" target="_blank" rel="noopener"><span class="t">코스피·코스닥 3%대 급락…AI 투자 수익성 우려에 반도체주 '휘청'</span><span class="m">팍스경제TV<span class="tm"> · 11/3 18:21</span></span><span class="tm2">11/3 18:21</span></a></li>
+<li><a href="https://news.google.com/rss/articles/CBMibkFVX3lxTE5WTkNYM1BhTlFZNXZEWndPZzFNX1VfVldIWXZ4SDEyXy0xc0Q5WFRqSFZoSHZJSUNTaEZZTkZaOWh2cDFZQ2k3eU1LamRUeEJIalNQNk1RTHZhREZzZ0JmWUFLQ2J1YWVkOXJYZ29n0gFuQVVfeXFMTlZOQ1gzUGFOUVk1dkRad09nMU1fVV9WV0hZdnhIMTJfLTFzRDlYVGpIVmhIdklJQ1NoRllORlo5aHZwMVlDaTd5TUtqZFR4QkhqU1A2TVFMdmFERnNnQmZZQUtDYnVhZWQ5clhnb2c?oc=5" target="_blank" rel="noopener"><span class="t">코스닥 사전배정 한도 높여도… 中企엔 '그림의 떡' - 머니투데이</span><span class="m">머니투데이<span class="tm"> · 04:00</span></span><span class="tm2">04:00</span></a></li>
+<li><a href="https://news.google.com/rss/articles/CBMiXEFVX3lxTE5VVUVHSUQwQjN3bm8zYk5uZnhRNmhscE5TZHJiVU5IY3pwZWM2YjJjdHRBTmV3Z1FXUzBQUFlqNUEwY05GQklZREU3emt3SHpXRklRQ1hsWWotQkhZ?oc=5" target="_blank" rel="noopener"><span class="t">코스피, 美 반도체주 반등에 상승 시도…중간선거 결과는 변수</span><span class="m">뉴스핌<span class="tm"> · 08:16</span></span><span class="tm2">08:16</span></a></li>
+<li><a href="https://news.google.com/rss/articles/CBMilwFBVV95cUxQdkQ2QmloelZVbDFmQzFCQ2dnVVZiRGN6VmhSS0ZBaFBZSUNPMkRsOV81TnRVSGIycWtRclVfTllYa3hSTnVwYU1hRjVQRm40TmE5UFZKZXNBbFo1WDhfWkp6RDFidXFBYmktY1VWWGpRd1JVbmpqYTlkWWctblB2VGFmV2pPV0lJZld2VjVQUXFjWjFvX253?oc=5" target="_blank" rel="noopener"><span class="t">SK스퀘어(402340)</span><span class="m">매일경제 마켓<span class="tm"> · 01:00</span></span><span class="tm2">01:00</span></a></li>
+<li><a href="https://news.google.com/rss/articles/CBMickFVX3lxTFBTblJPSmRnVjJIcDRoZUtPbmhMNTYwZnV2c013MWstRGxhWTc5V01ZOWxwZE13VDJYUGxVWDdxeWFoYnJabVR0TnZiX00taS1jbFVBOFlSdEdWVmFyUDczTXdsRnVyeUVxSVNFR2QyMC1udw?oc=5" target="_blank" rel="noopener"><span class="t">코스피·코스닥 급락에도 선방…코스피 제약 0.58% 상승</span><span class="m">메디코파마<span class="tm"> · 11/3 16:30</span></span><span class="tm2">11/3 16:30</span></a></li>
+<li class="more"><a href="https://news.google.com/rss/articles/CBMiXEFVX3lxTE43YjlwSkVSa2Fla2N4VVhJZE8tZGR3MUpEUk85bHFBTy1SQ1FpS2ZsaGxyWVphUzM3NnJlWU50aEhDSkR4Ynl1X2ZYM2xjMUpoal8zN0pqb1JXNjMt?oc=5" target="_blank" rel="noopener"><span class="t">외인-기관 매도에 하락한 코스피-코스닥</span><span class="m">뉴스핌<span class="tm"> · 11/3 16:04</span></span><span class="tm2">11/3 16:04</span></a></li>
+<li class="more"><a href="https://news.google.com/rss/articles/CBMiW0FVX3lxTE85dnQ3eVkwc1Q0d3JWc0tXS3F6NW1ocmZvX0IyWk4wYlVtVUp4VHlKWUluS2RIeWxDY1pLYjh2QUc3TlBwd3RWdWVtNFI4b0R6QlJlcjhtenZOelHSAWBBVV95cUxOYjhnU2loZm9RZ2tDbHdNRktCc1BfSXlRY0M1RGhJekJxNUgtYnYwclpoT2lSdVg2dG9UT1NmU19YOWdXNHJuN0xEcThrU2p1MWVtTHJyeDlITDdmNUlJbmU?oc=5" target="_blank" rel="noopener"><span class="t">코스피, 美기술주 하락 영향에 3.6% 급락…코스닥도 4%↓(종합)</span><span class="m">연합뉴스<span class="tm"> · 11/3 16:10</span></span><span class="tm2">11/3 16:10</span></a></li>
+<li class="more"><a href="https://news.google.com/rss/articles/CBMidkFVX3lxTE9HVjBubHVLYkkyTFJEQkd2VGxHLVZzV3h5UTBxckN2RC1pNUFDX0xKMnBqWVVGMlVVXzNmNEpNRTNvQkpVNS1MeGgzWXN3TmtETkRQYmlKc3RHOTdMM204SzVESFFqUG9RdnJ4MGZqSk9CV2tEM0E?oc=5" target="_blank" rel="noopener"><span class="t">코스피 3%대 하락해 5,600대...코스닥 4%대 하락</span><span class="m">YTN<span class="tm"> · 11/3 16:37</span></span><span class="tm2">11/3 16:37</span></a></li>
+<li class="more"><a href="https://news.google.com/rss/articles/CBMidEFVX3lxTFBtSFNFcUFWSktBSlk0eUljQ2k5OHFCaTBMRGcySVg3QXJidVFxczgzM0NxX29FYlRLazBYMkZvdnA2YnlDN2VkM0VqemRWQlFXQzhJdVhMX2ZNUTJfREd2VFFFUmc1NG9nSjh2VjhXYjltX3pJ0gF0QVVfeXFMT01sRFNjckt5MWR1VU1TaVZEWmJQR3lTdlhTMmM1bTF6aVN0SGx5YnptVzVLR1ZpTlVXeGI1TEJSVnd6amNzWDlkNWJIdmdlN0NMTlB2VHg1Ti1ZVFVhY3Foc0pLM2w2WXIxQzRkbmMxZGVyRkU?oc=5" target="_blank" rel="noopener"><span class="t">코스피, 3.59% 하락 마감‥5천600선으로 후퇴</span><span class="m">MBC 뉴스<span class="tm"> · 11/3 16:18</span></span><span class="tm2">11/3 16:18</span></a></li>
+<li class="more"><a href="https://news.google.com/rss/articles/CBMiXEFVX3lxTFBkejZhelhqbHU4WVBEVEZ4bWtTUGFMa2QyaG1fY1hvRzIyeE8tM3JqYXdmdlVvR3F5NGR3WlRuY3hQT0c5eTRIVnNNX0taZ3Y1SjVYNTd0aTZGU2Ra?oc=5" target="_blank" rel="noopener"><span class="t">코스피, 외국인·기관 '팔자'에 3%대 하락…5700선 아래로</span><span class="m">뉴스핌<span class="tm"> · 11/3 16:11</span></span><span class="tm2">11/3 16:11</span></a></li>
+<li class="more"><a href="https://news.google.com/rss/articles/CBMiakFVX3lxTE8wdHFTVGtPMEd3c19sR0YtU1NfZlMyTWt0VlcyejBNMG51TWZDZFZNc1JLdDRQNGtmeU1sdTA5RjNXbHhJa29EYXN2M0Vpelc2YTZPaDlEbTdhNkhTWUZTUTEzeWJrSU5Sb1E?oc=5" target="_blank" rel="noopener"><span class="t">코스피, 3.59% 내린 5648.79로 마감… 코스닥도 700선 마감</span><span class="m">천지일보<span class="tm"> · 11/3 17:00</span></span><span class="tm2">11/3 17:00</span></a></li>
+</ol><button type="button" class="morebtn" data-n="6">더보기 6개</button></section>
+<section><h2>반도체<span>12</span></h2><ol>
+<li><a href="https://news.google.com/rss/articles/CBMicEFVX3lxTE1LTmoxZzBrZFg4MlFyTGFHamFBa2FGVlJrXzBuR0NYUEM0clljaUNjZ1pUeG5nT0hsWHlzVW54eWQ1blNlUG1EZThGWF9iZ2pTVzNObnhSd0tBZFBfR0dBU1dGZTMzc0Q1NDhNajY5QXXSAXRBVV95cUxPUEZzeHlzQWg5MXlFc2Q0Q2hjZlVVZ1BBUzZmUF9aWV8tYlVUVDBjbXFvQlZqcDdsSkpHdDBFNnd4a3FZamR3ZmotVk5CVFVTeFBJWW9JU1AwWjY0UnJzNHpZQWZlVEhETXZXaWgxY0R4TXZReA?oc=5" target="_blank" rel="noopener"><span class="t">나스닥, 중간선거 속 0.8% 반등… 반도체지수 2.6% 상승</span><span class="m">IT조선<span class="tm"> · 06:49</span></span><span class="tm2">06:49</span></a></li>
+<li><a href="https://news.google.com/rss/articles/CBMiaEFVX3lxTFA1T2NSRFpfcTk1alpTXzk0a1VESEJPVUc4dGNOZmVMVGdWaEpacWVJWTA0ZHVVdkdCUDlMVlE3NW5mamJkcmwxOFBjcm44SExxM0hQV0xESmhCckh2Nk5xaWFOQXpXREk4?oc=5" target="_blank" rel="noopener"><span class="t">​​​​​​​외국인 1.5조 매도에 코스피 3.6% 급락…美반도체 반등에도 삼성·하이닉스 수급 불안</span><span class="m">녹색경제신문<span class="tm"> · 00:57</span></span><span class="tm2">00:57</span></a></li>
+<li><a href="https://news.google.com/rss/articles/CBMiZ0FVX3lxTFB4cUd4SFZCNkp1UHJrWXpyTXpkMGE0cFVxZ0JyWjV5SS0xR2RyTU9iT3AwWm1vNWRfTGtEU05kVjlicTh0czl3a1VDM2Fzck5NV1V6NDlZWVJBb004N083amZZWF9qTTQ?oc=5" target="_blank" rel="noopener"><span class="t">마이크론, 반도체 매도세 딛고 반등 성공…AI 메모리 수요 기대가 투자심리 되살렸다.</span><span class="m">제민일보<span class="tm"> · 06:27</span></span><span class="tm2">06:27</span></a></li>
+<li><a href="https://news.google.com/rss/articles/CBMidEFVX3lxTE1Fd1dEM3NPQ2dGVGlnY2thU1hEbXJpZlExMHNlUHlySGpJaFpUVTZDaDY3ZnJlTlNjNmcyeEVLVHVJZzJXeHJ3WDI0NTkxVW9QbGZkVEd5ME10MEVHR3F2YW04ZkZqSGtJSUl6QkNDeU5CMTR1?oc=5" target="_blank" rel="noopener"><span class="t">코스피 5,700선 하회…美반도체 약세에 '삼전닉스' 급락 |</span><span class="m">연합인포맥스<span class="tm"> · 11/3 16:20</span></span><span class="tm2">11/3 16:20</span></a></li>
+<li><a href="https://news.google.com/rss/articles/CBMigwFBVV95cUxObjhVT24tazgzUm9XOGZoVWVibW1jVF93c2hFcjY4bjdPSnRFY3VJdDZ2SHNEclQ0a0xkNm1KMlcxVEkxbGJIUEpFSTU2NXp0Qlk5RlNaelkyTm1YZWxOYmpIWTRvQWZHcExvTW5rbHhISmtzb3VwOVY4X2N2T0VYOG5zTQ?oc=5" target="_blank" rel="noopener"><span class="t">AMD 주가 전망 : 11월 3일 실적발표가 반도체 주가 반등시킬까?</span><span class="m">네이버 프리미엄콘텐츠<span class="tm"> · 11/3 20:26</span></span><span class="tm2">11/3 20:26</span></a></li>
+<li><a href="https://news.google.com/rss/articles/CBMiTkFVX3lxTFBscXdzOUF5ODlxLVEwQXNJNHVLaEF1ZGY4QUtIT2FoeUl2cnZHZ185WkVIME5GQjNpdkpBdU5iQm5KT2hCbm43RXNsNWp6UQ?oc=5" target="_blank" rel="noopener"><span class="t">AMD, 데이터센터 매출 두 배 가까이 급증…시간외 주가 7%↑</span><span class="m">매일경제<span class="tm"> · 06:41</span></span><span class="tm2">06:41</span></a></li>
+<li class="more"><a href="https://news.google.com/rss/articles/CBMiXkFVX3lxTE0wLUYwRktxeVV4TlRfVzNHOWk3eVhfVDRCczhiY1ZnUldwaU45Tnd2QmNJRE5td0JLTHRabDhydk55NkNrVzU4WU0yNXpjQXVNcEpaOWhlMTBiSUhqNVE?oc=5" target="_blank" rel="noopener"><span class="t">미 반도체 약세·중간선거 경계에...코스피 3.6%↓</span><span class="m">YTN<span class="tm"> · 11/3 18:52</span></span><span class="tm2">11/3 18:52</span></a></li>
+<li class="more"><a href="https://news.google.com/rss/articles/CBMiYEFVX3lxTE5ScWxZVTFkWExvM0V2UmxRS3gxRkVfUTJsQWRJb0pRenRFTkw0c0t3ek1JT09ENmlkSjh4Q1Vhd2wwOWN3RzdELWdWNWVVRjNVcElvbERWTlhwSW5TR2FMONIBeEFVX3lxTE5mV29aLXA2UnVFQlJyTnpuWXRIZ291ZDIySS1jYzVJcXNxLTQwZXJRTzlUMUVjOW1wbHh1Tkg1dTdNYUdDVDZ1YUFNajJLUVJVNnJSdC0xblFLMkRDYlhOTmRkcFhlQWZPRExoSHktUGJfQllHbHRlMw?oc=5" target="_blank" rel="noopener"><span class="t">美 반도체 반등에 프리마켓서 삼전·닉스 3%↑</span><span class="m">뉴시스<span class="tm"> · 08:08</span></span><span class="tm2">08:08</span></a></li>
+<li class="more"><a href="https://news.google.com/rss/articles/CBMiWkFVX3lxTE9jYVh5eE41ZWowZHd5MC1Pd3VqUVBiRkVscm44NGZPUXgxQklXMTVjRVh0WUw3eE5mZjNpY3BkM28tQUhmNHI2WjZFc09vd21RMHE5eTZhcjJ0UQ?oc=5" target="_blank" rel="noopener"><span class="t">반도체 강세속 다우지수만 하락…'속슬' 7.3% 급등</span><span class="m">파이낸셜뉴스<span class="tm"> · 06:23</span></span><span class="tm2">06:23</span></a></li>
+<li class="more"><a href="https://news.google.com/rss/articles/CBMigAFBVV95cUxPMEFMUG00WE1MN1FpS2x1bjdpZkxHelFjeUJBQWJ1RE1tT3Y5eG5qX01RSVVGZ1pLZWh4d0w4Z185cW5wZlBYVlJmRjZwUDhDZmp4RU9GQVJHdEVtQnVOZ01FVHdoeW5kTjA3blJvMjFYS0hhM1ZZZGVvZHFsa2w2aw?oc=5" target="_blank" rel="noopener"><span class="t">&quot;삼전닉스 내년 영업익 1110조…AI 거품론에도 반도체 더 오른다&quot;</span><span class="m">이데일리<span class="tm"> · 08:01</span></span><span class="tm2">08:01</span></a></li>
+<li class="more"><a href="https://news.google.com/rss/articles/CBMickFVX3lxTE0tTVdzOFdla0l1cHRsVlFnbnJoaDZxTmN4LWFkcllzVE1SZjU1WU5JNWxUWE5Vdnpmd2gzbkNhRkpkaWl6SHdMRGFoODAwZFF5c1NNZnRQbFdoZF9TQjF6dGwzc0dBOWFOLTZ1bi04NzhGUQ?oc=5" target="_blank" rel="noopener"><span class="t">미국증시 혼조마감…엔비디아·반도체 반등에도 애플 하락·국채금리 상승에 매수세 제한</span><span class="m">톱스타뉴스<span class="tm"> · 07:02</span></span><span class="tm2">07:02</span></a></li>
+<li class="more"><a href="https://news.google.com/rss/articles/CBMiVEFVX3lxTFBsZjc3Y1JjcHF3NThGc3UybjFkZ2VfNk1ZUkhUdlhMblBHMTVkMEVQbFRUTkhodjNCS2k3bW5JYjZjRVEtVWVScU44bjFFRlRLY2M1TtIBWEFVX3lxTE56MmFQZUZKSGxOd0dQTjhEcndXYjN2V2lObmpxVVkyRk1ONnRIODdTYTJyalFZakZhZTFlQ01KOXNqSEF5TGxMb1NLTHlUaV90TEVHSjNhU28?oc=5" target="_blank" rel="noopener"><span class="t">반도체주, 최근 급락 딛고 반등…엔비디아·AMD·브로드컴 주도</span><span class="m">미디어펜<span class="tm"> · 04:23</span></span><span class="tm2">04:23</span></a></li>
+</ol><button type="button" class="morebtn" data-n="6">더보기 6개</button></section>
+<section><h2>환율 · 금리<span>12</span></h2><ol>
+<li><a href="https://news.google.com/rss/articles/CBMigAFBVV95cUxNbmdEc1J6dGRsM0x6UWZJTEF5YmZ5YldxSDhWZ2RPOUdXd3VoV0haQXFlUUlTU0lPMFJBNTVnQzNCZERtV2VoTTNmT1hBQ2RTMlJjT2xhekNwN1ZBYmxlSi1uT3llR3RzZWFkSUhCbFNQTTVIMm1ldWVEOVZRN2JiMw?oc=5" target="_blank" rel="noopener"><span class="t">美 중간선거 개표 앞두고 관망세…환율 1340원대 등락[외환브리핑]</span><span class="m">이데일리<span class="tm"> · 08:11</span></span><span class="tm2">08:11</span></a></li>
+<li><a href="https://news.google.com/rss/articles/CBMi8gFBVV95cUxPazJack85TGctVERSWHBHNHM2VklOaGNqa3hTM2RJNExyVkJuZkdhb2NHbk5UMGdwOWhXZ2Z5X1pORXdKS3l6WXZ5Z0twZjNMQUdOMWswWXlOdS1URGFwbTBWcUVFb28xTlBlNHRlV2NPdnktNG5VazcxUThnY3N0WUNpTXA4eGpobllRZkpFWjVJN1c0cW5abkYzd1B5WnhvczJ2aFozYUFEcFpOdVdVQ3pOdURvZHZPVjFFTEdPMHlmY3UtNXkxdTR3NGlGUENZWXZlanVuZFkxZ3hmejNDZ1ZZNnJFM0xlQVNEOUx5YVk5Zw?oc=5" target="_blank" rel="noopener"><span class="t">호주중앙은행, 기준금리 4.85%로 인상</span><span class="m">위클리코리아<span class="tm"> · 11/3 20:31</span></span><span class="tm2">11/3 20:31</span></a></li>
+<li><a href="https://news.google.com/rss/articles/CBMiWEFVX3lxTE9MbzlTdXU2R1NBbEUtR1pVV2t1YTIzWGVWMDliNnFFZGcwY1ByaTFZbjlUUkVocXZWdDJvU2pOVHZLcTJFTHdOQmtkY3hCdWllOHlfZ0tUZG7SAVhBVV95cUxPTG85U3V1NkdTQWxFLUdaVVdrdWEyM1hlVjA5YjZxRWRnMGNQcmkxWW45VFJFaHF2VnQyb1NqTlR2S3EyRUx3TkJrZGN4QnVpZTh5X2dLVGRu?oc=5" target="_blank" rel="noopener"><span class="t">美 중간선거 이후 국채금리·환율 변동성은?</span><span class="m">SBS Biz<span class="tm"> · 11/3 17:52</span></span><span class="tm2">11/3 17:52</span></a></li>
+<li><a href="https://news.google.com/rss/articles/CBMivAJBVV95cUxPcEloN0J4SXhYdVVkc01SUFhWQnFrN0s4d2draXBEdGtPcVNjbGVkUDhKMjBBZ2Y3bUNjX2lheE01a3lHMXVWdnljejZwZVJlZHRUNkxITEx5ZTdBbVppMFRIRmNvMy01QUxvcmtzSlRKSU83WnVOLTdOVWdXZUNCaWx1cnRMaC1kdUtzTUliWG5xZWx3SWpYM3hzemdJaDFHWmdyWW5YbDE1NGUzYXFZcmkxVkpraHMwVU9ualk5bXpIR3BzZ0k1ZXBDVTVOVEVYLTM5TF95TkhNVjFGZTBjWTVIajJIbFZaUHozenNEeXM4aWFxNmZtcUtIWEpVOVNMV2VQZU44U1A3Rl9LUHF0UmVKelR1WUJKbGJDVXQ1VmxOaFlRSS1qSmFQaGxHSlpyN1IxWmJQX0wwSk4x?oc=5" target="_blank" rel="noopener"><span class="t">대신증권 &quot;한국금융지주, 3분기 실적 급감…목표가 30%↓&quot;</span><span class="m">중앙신문<span class="tm"> · 08:09</span></span><span class="tm2">08:09</span></a></li>
+<li><a href="https://news.google.com/rss/articles/CBMiakFVX3lxTE01R2dTWnV0eGZfdXhQWW5QNU5KUGRFNzNGRGw3QXByVXpoRXRJRk5JRG1rY082MVpkdGtaWWxwb3JLY2E4Z2FFdndWUkxxNmU1YVMySHFUOXdyUlhEaEloMHJDOFU0M2Q5enc?oc=5" target="_blank" rel="noopener"><span class="t">11월 3일, 국고채 5년 금리 하락</span><span class="m">데일리팝<span class="tm"> · 11/3 18:24</span></span><span class="tm2">11/3 18:24</span></a></li>
+<li><a href="https://news.google.com/rss/articles/CBMi8gJBVV95cUxQNkVfY2VtRkhYX21QZG5rS3JqMHpCMld2YWoxWFMyNHNXbjdELWY4NUZCd3F0Y2lselRqVXV0NWxiWTdsdEU2Tnp3Y1lnZk9hbmxzMkEwQ1FMQjYyTXlHX2dMX1EzUEpyVllDU3dQYTJsOXlRTXlZZFJmZkpDeTNLX3NSQkVjOVVseE9leUJaSHl1YzZmb3lCaVdLYmNGQTVWTVFsNW03SkF2ZlNiQWxvUEVqWFQ5N2F6eXozVUxrdUh6WGo1NVNick5SVDJReFp6TW5kSzY1OFAzcVVBM3EzTDBhVllnQllSUW9EOFNfb1NiNXlEUjNhbEFONzlRa25nOHdDNWRsM0M4Y3g4OHBPRkZGdERuZFRYWm5kUWZVeGx3TGN2RzE2aVpXR01UdjJJODdmZUFwYmdnQUlHS3Z3dzQ0ZEdvREN0UktlWmtFUTU3N1RuT0Y4UHIwc0pPTDBDVEZON2N3UUFQVVJMak1GcFVR?oc=5" target="_blank" rel="noopener"><span class="t">Selena, 미국 인플레이션 및 글로벌 분쟁을 투자 위험으로 지적</span><span class="m">IDNFinancials<span class="tm"> · 11/3 22:20</span></span><span class="tm2">11/3 22:20</span></a></li>
+<li class="more"><a href="https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1WOUpDMW8ya2UxdEUybURXXzVNNXRkX1l5UkJxTHZ5Nk1LOUZLZGVCYWNPZlNuaVVXaU9EdGUwU1g3QTFmSVNBdTZ6NzNiTERFZWFjMUlvM3JZU3gzZFRHdkxvMklIMG8?oc=5" target="_blank" rel="noopener"><span class="t">미국 중간선거 투표 시작…원·달러 1370원 상단 전망</span><span class="m">자본시장뉴스<span class="tm"> · 11/3 16:00</span></span><span class="tm2">11/3 16:00</span></a></li>
+<li class="more"><a href="https://news.google.com/rss/articles/CBMibkFVX3lxTE9ZSG1sSVpUdTJ2OERJNGRrZk04eUd6X2pXbTN4QXF0Y05DSGZYZmdaQU5Ja2p2d3MxU3lBMG5LaWFEd0lHeS1zMzhISGwyOTJiUWdLTlhHd3NYMzM2S1lPbmt4SzN4ZjBfekV5Q09B?oc=5" target="_blank" rel="noopener"><span class="t">내년 한국 성장률 3.1% 전망···&quot;환율 1270원, 원화 강세 이어갈 것&quot;</span><span class="m">위클리오늘<span class="tm"> · 11/3 16:45</span></span><span class="tm2">11/3 16:45</span></a></li>
+<li class="more"><a href="https://news.google.com/rss/articles/CBMidkFVX3lxTFBndnlHWHVzSjNtSlR6LUxuOXh5Qkt1TTdqdF9WUXNQVWIyZ05zVHB0djE0bU9KajNweGRlZlg5TVFSVzlhWnRoUDF1UmQyVmlzRWJ0eTFUNzlUNkJhN09XME5jckcycDVLZHZqdTd5TWxIOGlqYkE?oc=5" target="_blank" rel="noopener"><span class="t">[11.4(수) 한국장 전망] 환율 1,344원 급등·나스닥 강세 혼조 출발</span><span class="m">주달<span class="tm"> · 06:10</span></span><span class="tm2">06:10</span></a></li>
+<li class="more"><a href="https://news.google.com/rss/articles/CBMiigFBVV95cUxQNDViQ090SWxGZnBCNjU5VUVESHZLU2t1Y0x1by1sc05IcmNITkN4T2FUS2lBcFhWUC1vVUY3Tm5KNm1RaURFVVRHV1VndkJUMmRTTlhod05RTEFxUnUzbUMzaU81dzdBVEJSZjVZTlc4REFkRmdwa3dvSW1zaUV5SUluZWZpRjdVdUE?oc=5" target="_blank" rel="noopener"><span class="t">11월 3일 오전 국제 금융 및 통화 시장의 동향입니다.</span><span class="m">Vietnam.vn<span class="tm"> · 11/3 18:59</span></span><span class="tm2">11/3 18:59</span></a></li>
+<li class="more"><a href="https://news.google.com/rss/articles/CBMiZkFVX3lxTFAzSVZGNl9YSUdXdjVadlpTWk1KamJsZnZLY2wyUnZMSVFwd3ZSM2tDeFJsMEgtMzNlWlNXeGlJQ0dOelhqcnU4bV8wNWxfY2EyekRxT0JqdllkUzUtcWpVTndUd054Zw?oc=5" target="_blank" rel="noopener"><span class="t">“집권당 지면 코스피 오른다?”…미 중간선거, 이번에도 통할까? [잇슈 머니]</span><span class="m">KBS 뉴스<span class="tm"> · 06:47</span></span><span class="tm2">06:47</span></a></li>
+<li class="more"><a href="https://news.google.com/rss/articles/CBMigwFBVV95cUxNVVE3MXhJUEc4NjBNWkhweWJhYUV0VTlmVDJ4WVRIdGVqZFE4b1VVVUJtRnlrTDhSVU9DWXlYSDlFdVNLenVUMlR3T2NvaXM0NDJjUDhGRjJMQmkzNTJVMjdxaFJLSFh6MHRiVnhqbU9VV0lFZTJzQUJUaVB0X2g5YlZjbw?oc=5" target="_blank" rel="noopener"><span class="t">&quot;2022년처럼 버텨라&quot; vs &quot;10% 쿠폰도 녹는다&quot;…브라질채 투자자 '딜레마'</span><span class="m">인베스트조선<span class="tm"> · 07:02</span></span><span class="tm2">07:02</span></a></li>
+</ol><button type="button" class="morebtn" data-n="6">더보기 6개</button></section>
+</div>
+<footer>구글 뉴스 검색 결과의 제목을 모은 페이지예요. 제목을 누르면 기사로 이동해요. 최근 7일만 보관해요.</footer>
+</main>
+<script>
+(function(){
+  var bs=document.querySelectorAll('.view button');
+  function set(v){
+    document.body.classList.toggle('compact',v==='compact');
+    bs.forEach(function(b){b.classList.toggle('on',b.dataset.v===v)});
+    try{localStorage.setItem('view',v)}catch(e){}
+  }
+  bs.forEach(function(b){b.addEventListener('click',function(){set(b.dataset.v)})});
+  set(document.body.classList.contains('compact')?'compact':'card');
+  document.querySelectorAll('.morebtn').forEach(function(b){
+    b.addEventListener('click',function(){
+      var sec=b.closest('section'), open=sec.classList.toggle('open');
+      b.textContent=open?'접기':'더보기 '+b.dataset.n+'개';
+    });
+  });
+})();
+(function(){
+  var el=document.getElementById('stock-data'); if(!el) return;
+  var D=JSON.parse(el.textContent);
+  var NS='http://www.w3.org/2000/svg';
+  function fmt(v,kr){return kr||v>=1000?Math.round(v).toLocaleString('ko-KR'):v.toLocaleString('ko-KR',{minimumFractionDigits:2,maximumFractionDigits:2})}
+  function pad(x){return (x<10?'0':'')+x}
+  function kst(t){return new Date((t+9*3600)*1000)}
+  function lab(t,intra){var d=kst(t);return intra?pad(d.getUTCHours())+':'+pad(d.getUTCMinutes()):(d.getUTCFullYear()%100)+'.'+pad(d.getUTCMonth()+1)+'.'+pad(d.getUTCDate())}
+  function slice(s,r){
+    if(r==='1d') return {pts:s.i.length?s.i:s.d.slice(-2), base:s.p, intra:!!s.i.length};
+    var n={'1m':22,'3m':66,'1y':9999}[r]; var pts=s.d.slice(-n-1);
+    return {pts:pts, base:pts[0][1], intra:false};
+  }
+  function draw(card,s,r){
+    var o=slice(s,r), pts=o.pts, base=o.base, last=pts[pts.length-1][1];
+    var cls=last>base?'up':last<base?'down':'flat';
+    var col=getComputedStyle(document.documentElement).getPropertyValue(cls==='up'?'--up':cls==='down'?'--down':'--sub').trim();
+    var px=card.querySelector('.px'), chg=card.querySelector('.chg');
+    var latest=s.i.length?s.i[s.i.length-1][1]:s.d[s.d.length-1][1];
+    var dc=latest-s.p, dp=dc/s.p*100;
+    px.textContent=fmt(latest,s.kr);
+    px.className='px '+(dc>0?'up':dc<0?'down':'flat');
+    chg.className='chg '+(dc>0?'up':dc<0?'down':'flat');
+    chg.textContent=(dc>0?'▲':dc<0?'▼':'')+fmt(Math.abs(dc),s.kr)+' ('+(dp>0?'+':'')+dp.toFixed(2)+'%)';
+    var box=card.querySelector('.chart'), W=box.clientWidth||600, H=box.clientHeight||150, P=6;
+    var vals=pts.map(function(p){return p[1]}).concat([base]);
+    var mn=Math.min.apply(null,vals), mx=Math.max.apply(null,vals); if(mx===mn){mx+=1;mn-=1}
+    function X(i){return pts.length<2?W/2:i*(W-2)/(pts.length-1)+1}
+    function Y(v){return P+(mx-v)*(H-2*P)/(mx-mn)}
+    var d='';pts.forEach(function(p,i){d+=(i?'L':'M')+X(i).toFixed(1)+' '+Y(p[1]).toFixed(1)});
+    var old=box.querySelector('svg'); if(old) old.remove();
+    var svg=document.createElementNS(NS,'svg'); svg.setAttribute('viewBox','0 0 '+W+' '+H); svg.setAttribute('preserveAspectRatio','none');
+    var gid='g'+card.dataset.i+r;
+    svg.innerHTML='<defs><linearGradient id="'+gid+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+col+'" stop-opacity=".22"/><stop offset="1" stop-color="'+col+'" stop-opacity="0"/></linearGradient></defs>'
+      +'<line x1="0" x2="'+W+'" y1="'+Y(base).toFixed(1)+'" y2="'+Y(base).toFixed(1)+'" stroke="currentColor" stroke-opacity=".25" stroke-dasharray="3 3"/>'
+      +'<path d="'+d+'L'+X(pts.length-1).toFixed(1)+' '+H+'L'+X(0).toFixed(1)+' '+H+'Z" fill="url(#'+gid+')"/>'
+      +'<path d="'+d+'" fill="none" stroke="'+col+'" stroke-width="1.8" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>'
+      +'<line class="cx" y1="0" y2="'+H+'" stroke="currentColor" stroke-opacity=".35" visibility="hidden"/>'
+      +'<circle class="cd" r="3.5" fill="'+col+'" visibility="hidden"/>';
+    box.insertBefore(svg,box.firstChild);
+    var ax=card.querySelectorAll('.axis span'); ax[0].textContent=lab(pts[0][0],o.intra); ax[1].textContent=lab(pts[pts.length-1][0],o.intra);
+    var tip=box.querySelector('.tip'), cx=svg.querySelector('.cx'), cd=svg.querySelector('.cd');
+    function move(e){
+      var rect=box.getBoundingClientRect(), x=(e.touches?e.touches[0].clientX:e.clientX)-rect.left;
+      var i=Math.max(0,Math.min(pts.length-1,Math.round((x-1)/((W-2)/Math.max(1,pts.length-1)))));
+      var sx=X(i)*rect.width/W;
+      cx.setAttribute('x1',X(i));cx.setAttribute('x2',X(i));cx.setAttribute('visibility','visible');
+      cd.setAttribute('cx',X(i));cd.setAttribute('cy',Y(pts[i][1]));cd.setAttribute('visibility','visible');
+      tip.style.display='block';tip.style.left=Math.max(40,Math.min(rect.width-40,sx))+'px';
+      tip.textContent=lab(pts[i][0],o.intra)+'  '+fmt(pts[i][1],s.kr);
+    }
+    function hide(){tip.style.display='none';cx.setAttribute('visibility','hidden');cd.setAttribute('visibility','hidden')}
+    box.onmousemove=move; box.ontouchstart=move; box.ontouchmove=move; box.onmouseleave=hide; box.ontouchend=hide;
+  }
+  var cards=document.querySelectorAll('.stock');
+  cards.forEach(function(card){
+    var s=D[+card.dataset.i], bs=card.querySelectorAll('.tabs button'), cur='1d';
+    function pick(r){cur=r;bs.forEach(function(b){b.classList.toggle('on',b.dataset.r===r)});draw(card,s,r)}
+    bs.forEach(function(b){b.addEventListener('click',function(){pick(b.dataset.r)})});
+    pick('1d');
+    card._redraw=function(){draw(card,s,cur)};
+  });
+  var rt;window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){cards.forEach(function(c){c._redraw()})},150)});
+})();
+</script>
+</body>
+</html>
